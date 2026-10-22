@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Giant Panda – Reading Test</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:"Trebuchet MS","Segoe UI",Arial,sans-serif;color:#2b3a2f;background:linear-gradient(180deg,#d8f3dc 0%,#f1fbe9 45%,#fff8e7 100%);min-height:100vh}
+.bg{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.bg span{position:absolute;bottom:-60px;font-size:34px;opacity:.25;animation:rise linear infinite}
+@keyframes rise{to{transform:translateY(-115vh) rotate(25deg)}}
+.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:16px 14px 60px}
+header{text-align:center;padding:18px 10px 6px}
+header h1{margin:0;font-size:clamp(26px,6vw,42px);color:#1b6b3a;text-shadow:2px 2px 0 #fff}
+header p{margin:4px 0 0;color:#5a7a60}
+.panda{font-size:56px;display:inline-block;animation:bob 2.5s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px) rotate(-4deg)}}
+.card{background:#fff;border-radius:22px;padding:20px;margin:16px 0;box-shadow:0 8px 24px rgba(40,100,60,.15);border:3px solid #b7e4c7}
+.bar{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.95);backdrop-filter:blur(6px);border-radius:0 0 20px 20px;padding:10px 12px;box-shadow:0 6px 16px rgba(0,0,0,.1);border:3px solid #b7e4c7;border-top:0}
+.track{height:14px;background:#e3f1e6;border-radius:99px;overflow:hidden}
+.fill{height:100%;width:0;background:linear-gradient(90deg,#52b788,#ffb703);transition:width .4s;border-radius:99px}
+.barrow{display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px;font-weight:bold;color:#40684b}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;justify-content:center}
+.pill{width:32px;height:32px;border-radius:50%;border:2px solid #95d5b2;background:#fff;font-weight:bold;color:#2d6a4f;cursor:pointer;font-size:13px}
+.pill.done{background:#52b788;color:#fff;border-color:#40916c}
+.pill.sep{width:8px;border:0;background:none;cursor:default}
+.name{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.name input{flex:1;min-width:180px;padding:10px 14px;border-radius:14px;border:2px solid #95d5b2;font-size:16px;font-family:inherit}
+h2{color:#1b6b3a;margin:0 0 8px}
+.tag{display:inline-block;background:#ffb703;color:#fff;border-radius:99px;padding:3px 14px;font-weight:bold;margin-right:8px}
+.story h3{text-align:center;color:#e76f51;font-size:26px;margin:6px 0 14px}
+.story p{font-size:18px;line-height:1.7;margin:0 0 12px}
+.scene{height:150px;border-radius:16px;background:linear-gradient(#7bc89a,#2d6a4f);display:flex;align-items:flex-end;justify-content:center;font-size:90px;overflow:hidden;position:relative;margin-bottom:12px}
+.scene i{position:absolute;bottom:0;width:10px;background:#c9a227;border-radius:5px}
+.q{padding:14px 16px;margin:12px 0;border-radius:16px;background:#f6fff4;border:2px dashed #b7e4c7;scroll-margin-top:150px}
+.q label.t{font-size:18px;font-weight:bold;display:block;margin-bottom:8px}
+.q .n{display:inline-flex;width:30px;height:30px;border-radius:50%;background:#2d6a4f;color:#fff;align-items:center;justify-content:center;margin-right:8px;font-size:14px}
+textarea{width:100%;min-height:70px;padding:10px 12px;border:2px solid #95d5b2;border-radius:12px;font:17px/1.5 inherit;font-family:inherit;resize:vertical;background:repeating-linear-gradient(#fff,#fff 27px,#d8f3dc 28px)}
+textarea:focus{outline:none;border-color:#ffb703;box-shadow:0 0 0 4px #ffe8a3}
+.yn{display:flex;gap:12px}
+.yn button{flex:1;max-width:160px;padding:11px;border-radius:14px;border:3px solid #95d5b2;background:#fff;font-size:18px;font-weight:bold;cursor:pointer;font-family:inherit;color:#2d6a4f;transition:.15s}
+.yn button:hover{transform:translateY(-2px)}
+.yn button.sel{background:#52b788;color:#fff;border-color:#2d6a4f}
+.actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:20px}
+.btn{padding:13px 28px;font-size:18px;font-weight:bold;border:0;border-radius:99px;cursor:pointer;font-family:inherit;box-shadow:0 5px 0 rgba(0,0,0,.18);transition:.1s}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.18)}
+.go{background:#e76f51;color:#fff}.alt{background:#fff;color:#2d6a4f;border:3px solid #95d5b2}.gr{background:#2d6a4f;color:#fff}
+#result{display:none}
+.hero{text-align:center}
+.score{font-size:64px;font-weight:bold;color:#e76f51;line-height:1}
+.stars{font-size:38px;margin:6px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:16px 0}
+.stat{background:#f1fbe9;border-radius:16px;padding:12px;text-align:center;border:2px solid #b7e4c7}
+.stat b{display:block;font-size:26px;color:#1b6b3a}
+.meter{height:12px;background:#e3f1e6;border-radius:99px;margin-top:6px;overflow:hidden}.meter i{display:block;height:100%;background:#52b788}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th{background:#2d6a4f;color:#fff;padding:8px;text-align:left}
+td{padding:8px;border-bottom:1px solid #d8f3dc;vertical-align:top}
+.ok{color:#2d9a4f;font-weight:bold}.no{color:#d62828;font-weight:bold}.half{color:#e48a00;font-weight:bold}
+.tw{overflow-x:auto}
+.note{font-size:13px;color:#6b7f70;margin-top:10px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:20;padding:16px}
+.modal .box{background:#fff;border-radius:22px;padding:24px;max-width:380px;text-align:center}
+@media print{.bg,.bar,.actions,.noprint{display:none!important}body{background:#fff}.card{box-shadow:none}}
+</style>
+</head>
+<body>
+<div class="bg" id="bg"></div>
+<div class="wrap">
+<header><div class="panda">🐼</div><h1>The Giant Panda</h1><p>Reading Comprehension Test</p></header>
+
+<div class="bar noprint">
+ <div class="barrow"><span id="cnt">0 of 15 answered</span><span id="pc">0%</span></div>
+ <div class="track"><div class="fill" id="fill"></div></div>
+ <div class="pills" id="pills"></div>
+</div>
+
+<div id="test">
+<div class="card name"><b>👋 Your name:</b><input id="sname" placeholder="Type your name here" maxlength="40"></div>
+
+<div class="card story">
+ <h2><span class="tag">Reading</span>A. Read the story.</h2>
+ <div class="scene" id="scene">🐼</div>
+ <h3>The Giant Panda</h3>
+ <p>The giant panda lives in China. It has a large body and a round face. It has small ears and a black patch around each eye. Its coat is thick and waterproof.</p>
+ <p>The panda is a very good climber. Its strong colours help to hide it.</p>
+ <p>The panda has huge teeth. It has very strong jaws to eat bamboo which is very tough. It has to eat huge amounts of bamboo. It spends fourteen hours a day eating. The rest of the time is spent sleeping. It has no special sleeping place.</p>
+ <p>The panda cub is tiny. It leaves its mother when it is one and a half years old to live alone.</p>
+ <p>The panda is now very rare. It is protected in China because there are so few left.</p>
+</div>
+
+<div class="card">
+ <h2><span class="tag">Activities</span>A. Answer these questions.</h2>
+ <div id="partA"></div>
+</div>
+<div class="card">
+ <h2><span class="tag">Activities</span>B. Write <u>yes</u> or <u>no</u>.</h2>
+ <div id="partB"></div>
+</div>
+
+<div class="actions">
+ <button class="btn alt" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆ Back to Top</button>
+ <button class="btn alt" onclick="clearAll()">🧹 Clear All</button>
+ <button class="btn go" onclick="trySubmit()">✅ Submit Test</button>
+</div>
+</div>
+
+<div id="result"></div>
+</div>
+
+<div class="modal" id="modal"><div class="box"><div style="font-size:50px">🤔</div><h2>Wait a moment!</h2><p id="mtxt"></p>
+ <div class="actions"><button class="btn alt" onclick="closeM()">Go back</button><button class="btn go" onclick="closeM();finish()">Submit anyway</button></div></div></div>
+
+<script>
+const A=[
+ {q:"What country does the panda live in?",pts:1,key:[["china"]],ans:"China."},
+ {q:"What does the panda look like?",pts:2,feat:["large body|big body|large|big","round face|round","small ears|small ear","black patch|patch|black around|black eye","thick|waterproof|coat|fur","black and white|black|white"],ans:"It has a large body and a round face, small ears, a black patch around each eye, and a thick waterproof coat."},
+ {q:"How long does the panda spend eating?",pts:1,key:[["fourteen|14"]],ans:"Fourteen hours a day."},
+ {q:"What is a baby panda called?",pts:1,key:[["cub"]],ans:"A cub."},
+ {q:"How long does a panda cub spend with its mother?",pts:1,key:[["one and a half|1 1/2|1.5|1½|18 months|eighteen months|year and a half|1 and a half"]],ans:"One and a half years."},
+ {q:"The panda is very rare. What does this mean?",pts:1,key:[["few|not many|scarce|hardly|not common|small number|endanger|extinct|little|not plenty|not much|protect"]],ans:"It means there are very few pandas left."}
+];
+const B=[
+ ["The giant panda lives in China.","yes"],["The giant panda is thin.","no"],["The giant panda has a black patch around one eye.","no"],
+ ["The giant panda is a poor climber.","no"],["The giant panda eats a lot of bamboo.","yes"],["The giant panda spends little time eating.","no"],
+ ["The giant panda sleeps for about twelve hours.","no"],["Giant panda cubs are tiny.","yes"],["The giant panda can be found everywhere.","no"]
+];
+const bAns={};
+const $=id=>document.getElementById(id);
+// build
+A.forEach((o,i)=>{$("partA").insertAdjacentHTML("beforeend",`<div class="q" id="q${i}"><label class="t" for="a${i}"><span class="n">${i+1}</span>${o.q}</label><textarea id="a${i}" placeholder="Write your answer here..." oninput="upd()"></textarea></div>`)});
+B.forEach((o,i)=>{const k=A.length+i;$("partB").insertAdjacentHTML("beforeend",`<div class="q" id="q${k}"><label class="t"><span class="n">${i+1}</span>${o[0]}</label><div class="yn"><button onclick="pick(${i},'yes',this)">👍 Yes</button><button onclick="pick(${i},'no',this)">👎 No</button></div></div>`)});
+let ph="";for(let i=0;i<15;i++){if(i==6)ph+='<button class="pill sep"></button>';ph+=`<button class="pill" id="p${i}" onclick="go(${i})">${i<6?i+1:"B"+(i-5)}</button>`}
+$("pills").innerHTML=ph;
+function go(i){$("q"+i).scrollIntoView({behavior:"smooth",block:"start"});const e=$("q"+i).querySelector("textarea");if(e)setTimeout(()=>e.focus({preventScroll:true}),500)}
+function pick(i,v,b){bAns[i]=v;[...b.parentNode.children].forEach(x=>x.classList.remove("sel"));b.classList.add("sel");upd()}
+function done(i){return i<6?$("a"+i).value.trim()!=="":!!bAns[i-6]}
+function upd(){let n=0;for(let i=0;i<15;i++){const d=done(i);if(d)n++;$("p"+i).classList.toggle("done",d)}
+ $("cnt").textContent=n+" of 15 answered";$("pc").textContent=Math.round(n/15*100)+"%";$("fill").style.width=n/15*100+"%"}
+function clearAll(){if(!confirm("Clear all your answers?"))return;A.forEach((_,i)=>$("a"+i).value="");for(const k in bAns)delete bAns[k];document.querySelectorAll(".yn button").forEach(b=>b.classList.remove("sel"));upd()}
+function trySubmit(){let m=[];for(let i=0;i<15;i++)if(!done(i))m.push(i<6?i+1:"B"+(i-5));
+ if(m.length){$("mtxt").textContent="You have not answered: "+m.join(", ")+". Do you want to go back?";$("modal").style.display="flex"}else finish()}
+function closeM(){$("modal").style.display="none"}
+function mark(o,t){const l=t.toLowerCase();
+ if(o.feat){const c=o.feat.filter(f=>new RegExp(f,"i").test(l)).length;return c>=2?2:c}
+ return o.key.every(g=>new RegExp(g,"i").test(l))?1:0}
+function finish(){
+ let rows="",sa=0,sb=0,ta=0;
+ A.forEach((o,i)=>{const t=$("a"+i).value.trim(),m=t?mark(o,t):0;sa+=m;ta+=o.pts;
+  rows+=`<tr><td>A${i+1}</td><td>${o.q}</td><td>${esc(t)||"<i>(no answer)</i>"}</td><td>${o.ans}</td><td class="${m==o.pts?"ok":m?"half":"no"}">${m==o.pts?"✔":m?"½":"✘"} ${m}/${o.pts}</td></tr>`});
+ B.forEach((o,i)=>{const v=bAns[i]||"",m=v===o[1]?1:0;sb+=m;
+  rows+=`<tr><td>B${i+1}</td><td>${o[0]}</td><td>${v||"<i>(no answer)</i>"}</td><td>${o[1]}</td><td class="${m?"ok":"no"}">${m?"✔":"✘"} ${m}/1</td></tr>`});
+ const tot=sa+sb,max=ta+B.length,pc=Math.round(tot/max*100);
+ const st=pc>=90?5:pc>=75?4:pc>=60?3:pc>=40?2:1;
+ const [g,msg]=pc>=90?["Excellent","Pandastic! You are a reading superstar! 🌟"]:pc>=75?["Very Good","Great job! You understood the story really well! 👏"]:pc>=60?["Good","Nice work! Read the story once more to improve. 📖"]:pc>=40?["Fair","Good try! Read the passage again and try next time. 💪"]:["Keep Practising","Don't give up! Read the story slowly and try again. 🌱"];
+ const nm=esc($("sname").value.trim())||"Student";
+ $("result").innerHTML=`<div class="card hero"><div class="panda">${pc>=60?"🎉":"🐼"}</div><h2>Scoresheet – ${nm}</h2>
+ <div class="score">${tot}<span style="font-size:30px;color:#6b7f70"> / ${max}</span></div>
+ <div class="stars">${"⭐".repeat(st)}${"☆".repeat(5-st)}</div>
+ <h2 style="color:#e76f51">${pc}% – ${g}</h2><p>${msg}</p>
+ <div class="grid">
+  <div class="stat">Part A: Questions<b>${sa} / ${ta}</b><div class="meter"><i style="width:${sa/ta*100}%"></i></div></div>
+  <div class="stat">Part B: Yes or No<b>${sb} / ${B.length}</b><div class="meter"><i style="width:${sb/B.length*100}%"></i></div></div>
+  <div class="stat">Answered<b>${[...Array(15).keys()].filter(done).length} / 15</b></div>
+ </div></div>
+ <div class="card"><h2>📋 Question-by-Question Review</h2><div class="tw"><table><tr><th>No.</th><th>Question</th><th>Your answer</th><th>Correct answer</th><th>Mark</th></tr>${rows}</table></div>
+ <p class="note">Part A is marked automatically by looking for key words. Teachers may review written answers and adjust marks where a different correct wording was used.</p></div>
+ <div class="actions noprint"><button class="btn gr" onclick="window.print()">🖨 Print Scoresheet</button><button class="btn go" onclick="retake()">🔄 Try Again</button></div>`;
+ $("test").style.display="none";document.querySelector(".bar").style.display="none";$("result").style.display="block";window.scrollTo({top:0,behavior:"smooth"})}
+function retake(){A.forEach((_,i)=>$("a"+i).value="");for(const k in bAns)delete bAns[k];document.querySelectorAll(".yn button").forEach(b=>b.classList.remove("sel"));upd();
+ $("result").style.display="none";$("test").style.display="block";document.querySelector(".bar").style.display="block";window.scrollTo({top:0})}
+function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+// backdrop
+const em=["🎋","🐼","🍃","🎋","🌿"];let bg="";for(let i=0;i<16;i++)bg+=`<span style="left:${i*6.5}%;animation-duration:${14+i%6*4}s;animation-delay:${-i*2}s;font-size:${24+i%4*8}px">${em[i%5]}</span>`;$("bg").innerHTML=bg;
+let sc="";for(let i=0;i<14;i++)sc+=`<i style="left:${i*7.4+1}%;height:${70+i%4*30}px"></i>`;$("scene").insertAdjacentHTML("afterbegin",sc);
+</script>
+</body>
+</html>
